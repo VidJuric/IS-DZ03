@@ -1,6 +1,8 @@
 ﻿using IS.DZ03.Logic.Repositories.Interfaces;
 using IS.DZ03.Model.Entities;
 using Microsoft.EntityFrameworkCore;
+using Sieve.Models;
+using Sieve.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,10 +14,12 @@ namespace IS.DZ03.Logic.Repositories
     public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEntity : class
     {
         protected readonly AutomobilskeUslugeContext context;
+        protected readonly ISieveProcessor sieveProcessor;
 
-        public GenericRepository(AutomobilskeUslugeContext context)
+        public GenericRepository(AutomobilskeUslugeContext context, ISieveProcessor sieveProcessor)
         {
             this.context = context;
+            this.sieveProcessor = sieveProcessor;
         }
 
         public void Add(TEntity entity)
@@ -28,9 +32,9 @@ namespace IS.DZ03.Logic.Repositories
             context.Set<TEntity>().AddRange(entities);
         }
 
-        public IEnumerable<TEntity> Find(Expression<Func<TEntity, bool>> expression)
+        public async Task<IEnumerable<TEntity>> Find(Expression<Func<TEntity, bool>> expression)
         {
-            return context.Set<TEntity>().Where(expression);
+            return await context.Set<TEntity>().Where(expression).ToListAsync();
         }
 
         public async Task<IEnumerable<TEntity>> GetAll()
@@ -38,9 +42,16 @@ namespace IS.DZ03.Logic.Repositories
             return await context.Set<TEntity>().ToListAsync();
         }
 
-        public TEntity GetById(int id)
+        public async Task<IEnumerable<TEntity>> GetAll(SieveModel model)
         {
-            return context.Set<TEntity>().Find(id);
+            var result = context.Set<TEntity>().AsNoTracking().AsQueryable<TEntity>();
+            result = sieveProcessor.Apply(model, result);
+            return result;
+        }
+
+        public async Task<TEntity> GetById(int id)
+        {
+            return await context.Set<TEntity>().FindAsync(id);
         }
 
         public void Remove(TEntity entity)

@@ -1,6 +1,7 @@
 ﻿using IS.DZ03.Logic.Repositories;
 using IS.DZ03.Logic.Repositories.Interfaces;
 using IS.DZ03.Model.Entities;
+using Sieve.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,27 +12,37 @@ namespace IS.DZ03.Logic.UnitOfWork
 {
     public class AutomobilskeUslugeUnitOfWork : IAutomobilskeUslugeUnitOfWork
     {
-        private AutomobilskeUslugeContext context;
+        private readonly AutomobilskeUslugeContext _context;
+        private readonly ISieveProcessor _processor;
 
-        public AutomobilskeUslugeUnitOfWork(AutomobilskeUslugeContext context)
+        private IOsobaRepository _osobaRepository;
+
+        public AutomobilskeUslugeUnitOfWork(AutomobilskeUslugeContext context, ISieveProcessor processor)
         {
-            this.context = context;
-            Osoba = new OsobaRepository(this.context);
+            _context = context ?? throw new ArgumentNullException(nameof(context)); ;
+            _processor = processor ?? throw new ArgumentNullException(nameof(processor));
         }
 
         public IOsobaRepository Osoba
         {
-            get;
-            private set;
+            get
+            {
+                if (_osobaRepository is null)
+                {
+                    _osobaRepository = new OsobaRepository(_context, _processor);
+                }
+
+                return _osobaRepository;
+            }
         }
 
         public void Dispose()
         {
-            context.Dispose();
+            _context.Dispose();
         }
         public int Save()
         {
-            return context.SaveChanges();
+            return _context.SaveChanges();
         }
     }
 }
