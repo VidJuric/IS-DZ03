@@ -18,6 +18,7 @@ namespace IS.DZ03.Api
         }
 
         public IConfiguration Configuration { get; }
+        private readonly string policyName = "Policy";
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -28,8 +29,13 @@ namespace IS.DZ03.Api
               {
                   c.SwaggerDoc("v1", new OpenApiInfo { Title = "IS.DZ03.Api", Version = "v1" });
               });
+            _ = services.AddCors(options => options.AddPolicy(policyName, builder =>
+            {
+                builder.AllowAnyOrigin()
+                    .AllowAnyMethod()
+                    .AllowAnyHeader();
+            }));
             _ = services.AddDbContext<AutomobilskeUslugeContext>(options => options.UseNpgsql(Configuration.GetConnectionString("AWS.Postgres.Connection")));
-
             _ = services.AddServicesToDependencyInjection();
         }
 
@@ -46,6 +52,8 @@ namespace IS.DZ03.Api
             _ = app.UseHttpsRedirection();
 
             _ = app.UseRouting();
+
+            _ = app.UseCors(policyName);
 
             _ = app.UseAuthorization();
 
