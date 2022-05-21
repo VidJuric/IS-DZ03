@@ -1,24 +1,19 @@
-import React from 'react';
-import logo from './logo.svg';
+import axios from 'axios';
+import { useEffect, useState } from 'react';
 import './App.css';
+import MasterDetail from './components/master-detail';
+import { Osoba } from './services/types';
 
-function App() {
+const App = () => {
+  const [employees, setEmployees] = useState<Osoba[]>([]);
+
+  useEffect(() => {
+    axios.get<Osoba[]>('https://localhost:44312/api/Osoba').then(res => setEmployees(res.data))
+  }, [])
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <MasterDetail employees={employees} />
     </div>
   );
 }
