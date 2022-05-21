@@ -11,6 +11,11 @@
   <ItemGroup>
     <Folder Include="Results\" />
     <Folder Include="Requests\" />
+    <Folder Include="Services\Sieves\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Sieve" Version="2.5.5" />
   </ItemGroup>
 
 </Project>
