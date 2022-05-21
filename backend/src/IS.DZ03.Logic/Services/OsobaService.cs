@@ -1,9 +1,10 @@
-﻿using IS.DZ03.Logic.Services.Interfaces;
+﻿using IS.DZ03.Logic.Results;
+using IS.DZ03.Logic.Services.Interfaces;
 using IS.DZ03.Logic.UnitOfWork;
-using IS.DZ03.Model.Entities;
 using Sieve.Models;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace IS.DZ03.Logic.Services
@@ -17,7 +18,12 @@ namespace IS.DZ03.Logic.Services
             UnitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
         }
 
-        public async Task<IEnumerable<Osoba>> GetAllEmployees(SieveModel model) => await UnitOfWork.Osoba.GetEmployees(model);
+        public async Task<IEnumerable<OsobaResult>> GetAllEmployees(SieveModel model)
+        {
+            var employees = await UnitOfWork.Osoba.GetEmployees(model);
+            var result = employees.Select(e => new OsobaResult(e));
+            return result;
+        }
 
     }
 }
