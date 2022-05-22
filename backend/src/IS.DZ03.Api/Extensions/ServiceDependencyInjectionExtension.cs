@@ -15,7 +15,6 @@ namespace IS.DZ03.Api.Extensions
             _ = services.AddScoped<IOsobaService, OsobaService>();
             _ = services.AddScoped<IStatusZadatkaService, StatusZadatakaService>();
             _ = services.AddScoped<IUslugaService, UslugaService>();
-            _ = services.AddScoped<IZaposlenikService, ZaposlenikService>();
             _ = services.AddScoped<IZadatakService, ZadatakService>();
             _ = services.AddScoped<ISieveProcessor, AutomobilskeUslugeSieveProcessor>();
 

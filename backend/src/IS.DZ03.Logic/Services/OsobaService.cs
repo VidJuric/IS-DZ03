@@ -18,10 +18,13 @@ namespace IS.DZ03.Logic.Services
             UnitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
         }
 
-        public async Task<IEnumerable<OsobaResult>> GetAllEmployees(SieveModel model)
+        public async Task<IEnumerable<EmployeeInfoResult>> GetAllEmployees(SieveModel model)
         {
-            var employees = await UnitOfWork.Osoba.GetEmployees(model);
-            var result = employees.Select(e => new OsobaResult(e));
+            var persons = await UnitOfWork.Osoba.GetEmployees(model);
+            persons = persons.Where(p => p.Zaposlenik.Count > 0);
+
+            var result = persons.Select(p => new EmployeeInfoResult(p, p.Zaposlenik.First().Zaposlenikid)).OrderBy(p => p.ZaposlenikID);
+
             return result;
         }
 

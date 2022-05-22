@@ -7,6 +7,6 @@ namespace IS.DZ03.Logic.Services.Interfaces
 {
     public interface IOsobaService
     {
-        Task<IEnumerable<OsobaResult>> GetAllEmployees(SieveModel model);
+        Task<IEnumerable<EmployeeInfoResult>> GetAllEmployees(SieveModel model);
     }
 }

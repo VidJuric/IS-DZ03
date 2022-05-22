@@ -1,5 +1,6 @@
 ﻿using IS.DZ03.Logic.Repositories.Interfaces;
 using IS.DZ03.Model.Entities;
+using Microsoft.EntityFrameworkCore;
 using Sieve.Models;
 using Sieve.Services;
 using System.Collections.Generic;
@@ -13,6 +14,11 @@ namespace IS.DZ03.Logic.Repositories
         {
         }
 
-        public async Task<IEnumerable<Osoba>> GetEmployees(SieveModel model) => await GetAll(model);
+        public async Task<IEnumerable<Osoba>> GetEmployees(SieveModel model)
+        {
+            return await DatabaseContext.Set<Osoba>()
+                .Include(o => o.Zaposlenik)
+                .ToArrayAsync();
+        }
     }
 }
