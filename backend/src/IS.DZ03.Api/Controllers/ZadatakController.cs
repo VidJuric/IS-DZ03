@@ -36,5 +36,12 @@ namespace IS.DZ03.Api.Controllers
             var result = await _zadatakService.UpdateTask(taskID, zadatak);
             return Ok(result);
         }
+
+        [HttpDelete("{taskID}")]
+        public async Task<IActionResult> DeleteTask(int taskID)
+        {
+            await _zadatakService.DeleteTask(taskID);
+            return NoContent();
+        }
     }
 }

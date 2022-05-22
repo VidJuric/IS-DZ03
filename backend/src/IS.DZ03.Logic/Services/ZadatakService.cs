@@ -59,9 +59,12 @@ namespace IS.DZ03.Logic.Services
             return new ZadatakResult(entity);
         }
 
-        public Task DeleteTask(int taskID)
+        public async Task DeleteTask(int taskID)
         {
-            throw new NotImplementedException();
+            var entity = await UnitOfWork.Zadatak.GetById(taskID);
+
+            UnitOfWork.Zadatak.Remove(entity);
+            _ = UnitOfWork.Save();
         }
     }
 }
