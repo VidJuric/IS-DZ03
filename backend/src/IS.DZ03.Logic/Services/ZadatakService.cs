@@ -42,16 +42,24 @@ namespace IS.DZ03.Logic.Services
             };
 
             UnitOfWork.Zadatak.Add(entity);
-            UnitOfWork.Save();
+            _ = UnitOfWork.Save();
 
             return new ZadatakResult(entity);
         }
-        public Task<ZadatakResult> UpdateTask(long taskID, ZadatakRequest task)
+        public async Task<ZadatakResult> UpdateTask(int taskID, ZadatakRequest task)
         {
-            throw new NotImplementedException();
+            var entity = await UnitOfWork.Zadatak.GetById(taskID);
+
+            entity.Opis = task.Opis;
+            entity.Statuszadatkaid = task.StatusZadatkaID;
+            entity.Uslugaid = task.UslugaID;
+
+            _ = UnitOfWork.Save();
+
+            return new ZadatakResult(entity);
         }
 
-        public Task DeleteTask(long taskID)
+        public Task DeleteTask(int taskID)
         {
             throw new NotImplementedException();
         }

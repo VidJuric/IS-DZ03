@@ -29,5 +29,12 @@ namespace IS.DZ03.Api.Controllers
             var result = await _zadatakService.CreateTask(task);
             return Ok(result);
         }
+
+        [HttpPut("{taskID}")]
+        public async Task<IActionResult> EditTask(int taskID, [FromBody] ZadatakRequest zadatak)
+        {
+            var result = await _zadatakService.UpdateTask(taskID, zadatak);
+            return Ok(result);
+        }
     }
 }

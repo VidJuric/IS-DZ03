@@ -12,7 +12,7 @@ namespace IS.DZ03.Logic.Services.Interfaces
     {
         Task<IList<ZadatakResult>> GetEmployeeTasks(long employeeID);
         Task<ZadatakResult> CreateTask(ZadatakRequest task);
-        Task<ZadatakResult> UpdateTask(long taskID, ZadatakRequest task);
-        Task DeleteTask(long taskID);
+        Task<ZadatakResult> UpdateTask(int taskID, ZadatakRequest task);
+        Task DeleteTask(int taskID);
     }
 }
