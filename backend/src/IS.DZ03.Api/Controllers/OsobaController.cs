@@ -22,5 +22,12 @@ namespace IS.DZ03.Api.Controllers
             var result = await _osobaService.GetAllEmployees(model);
             return Ok(result);
         }
+
+        [HttpGet("CustomerSupport")]
+        public async Task<IActionResult> GetAllCustomerSupport()
+        {
+            var result = await _osobaService.GetAllCustomerSupport();
+            return Ok(result);
+        }
     }
 }

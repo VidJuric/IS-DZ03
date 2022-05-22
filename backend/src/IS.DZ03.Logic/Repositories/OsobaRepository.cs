@@ -18,7 +18,13 @@ namespace IS.DZ03.Logic.Repositories
         {
             return await DatabaseContext.Set<Osoba>()
                 .Include(o => o.Zaposlenik)
-                .ToArrayAsync();
+                .ToListAsync();
+        }
+        public async Task<IEnumerable<Osoba>> GetCustomerSupport()
+        {
+            return await DatabaseContext.Set<Osoba>()
+                 .Include(o => o.KorisničkaSlužba)
+                 .ToListAsync();
         }
     }
 }

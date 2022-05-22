@@ -28,5 +28,15 @@ namespace IS.DZ03.Logic.Services
             return result;
         }
 
+        public async Task<IEnumerable<CustomerSupportInfoResult>> GetAllCustomerSupport()
+        {
+            var persons = await UnitOfWork.Osoba.GetCustomerSupport();
+            persons = persons.Where(p => p.KorisničkaSlužba.Count > 0);
+
+            var result = persons.Select(p => new CustomerSupportInfoResult(p, p.KorisničkaSlužba.First().Korisnickasluzbaid)).OrderBy(p => p.KorisnickaSluzbaID);
+
+            return result;
+        }
+
     }
 }
