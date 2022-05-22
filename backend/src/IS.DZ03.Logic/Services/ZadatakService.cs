@@ -19,11 +19,11 @@ namespace IS.DZ03.Logic.Services
             UnitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
         }
 
-        public async Task<IList<ZadatakResult>> GetEmployeeTasks(long employeeID)
+        public async Task<IList<ZadatakInfoResult>> GetEmployeeTasks(long employeeID)
         {
             var employeeTasks = await UnitOfWork.Zadatak.GetEmployeeTasks(employeeID);
             var result = employeeTasks
-                .Select(et => new ZadatakResult(et))
+                .Select(et => new ZadatakInfoResult(et, $"{et.Korisnickasluzba.OibNavigation.Ime} {et.Korisnickasluzba.OibNavigation.Prezime}"))
                 .ToList();
 
             return result;

@@ -17,6 +17,7 @@ namespace IS.DZ03.Logic.Repositories
         public async Task<IList<Zadatak>> GetEmployeeTasks(long employeeID)
         {
             return await DatabaseContext.Set<Zadatak>()
+                .Include(t => t.Korisnickasluzba.OibNavigation)
                 .Where(z => z.Zaposlenikid == employeeID)
                 .ToListAsync();
         }

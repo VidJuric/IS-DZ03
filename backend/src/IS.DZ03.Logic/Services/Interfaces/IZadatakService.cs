@@ -7,7 +7,7 @@ namespace IS.DZ03.Logic.Services.Interfaces
 {
     public interface IZadatakService
     {
-        Task<IList<ZadatakResult>> GetEmployeeTasks(long employeeID);
+        Task<IList<ZadatakInfoResult>> GetEmployeeTasks(long employeeID);
         Task<ZadatakResult> CreateTask(ZadatakRequest task);
         Task<ZadatakResult> UpdateTask(int taskID, ZadatakRequest task);
         Task DeleteTask(int taskID);
