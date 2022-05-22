@@ -1,10 +1,8 @@
 ﻿using IS.DZ03.Logic.Repositories.Interfaces;
 using IS.DZ03.Model.Entities;
+using Microsoft.EntityFrameworkCore;
 using Sieve.Services;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace IS.DZ03.Logic.Repositories
@@ -13,6 +11,13 @@ namespace IS.DZ03.Logic.Repositories
     {
         public ZaposlenikRepository(AutomobilskeUslugeContext context, ISieveProcessor processor) : base(context, processor)
         {
+        }
+
+        public async Task<Zaposlenik> GetEmployeeByOIB(string oib)
+        {
+            return await DatabaseContext.Set<Zaposlenik>()
+                .Where(o => o.Oib == oib)
+                .FirstOrDefaultAsync();
         }
     }
 }

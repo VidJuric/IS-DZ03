@@ -84,9 +84,15 @@ namespace IS.DZ03.Logic.Services
             return new OsobaResult(entity);
         }
 
-        public Task DeleteEmployee(string oib)
+        public async Task DeleteEmployee(string oib)
         {
-            throw new NotImplementedException();
+            var entityOsoba = await UnitOfWork.Osoba.GetPersonByOIB(oib);
+            var entityZaposlenik = await UnitOfWork.Zaposlenik.GetEmployeeByOIB(oib);
+
+            UnitOfWork.Zaposlenik.Remove(entityZaposlenik);
+            UnitOfWork.Osoba.Remove(entityOsoba);
+
+            _ = UnitOfWork.Save();
         }
     }
 }

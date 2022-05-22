@@ -44,5 +44,12 @@ namespace IS.DZ03.Api.Controllers
             var result = await _osobaService.EditEmployee(oib, employee);
             return Ok(result);
         }
+
+        [HttpDelete("{oib}")]
+        public async Task<IActionResult> DeleteTask(string oib)
+        {
+            await _osobaService.DeleteEmployee(oib);
+            return NoContent();
+        }
     }
 }
