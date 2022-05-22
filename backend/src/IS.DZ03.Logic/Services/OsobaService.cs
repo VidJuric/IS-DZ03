@@ -88,7 +88,9 @@ namespace IS.DZ03.Logic.Services
         {
             var entityOsoba = await UnitOfWork.Osoba.GetPersonByOIB(oib);
             var entityZaposlenik = await UnitOfWork.Zaposlenik.GetEmployeeByOIB(oib);
+            var entityTasks = await UnitOfWork.Zadatak.GetEmployeeTasks(entityZaposlenik.Zaposlenikid);
 
+            UnitOfWork.Zadatak.RemoveRange(entityTasks);
             UnitOfWork.Zaposlenik.Remove(entityZaposlenik);
             UnitOfWork.Osoba.Remove(entityOsoba);
 
