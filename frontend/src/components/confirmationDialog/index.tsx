@@ -30,7 +30,7 @@ const ConfirmationDialog: React.FC<Props> = ({ open, name, deleteSelected, onClo
             </Typography>
             <Divider />
             <DialogContent>
-                Are you sure you want to delete selected {name === '' ? 'task' : name} ?
+                Are you sure you want to remove {name === '' ? 'task' : name} ?
             </DialogContent>
             <DialogActions>
                 <Button variant="contained" onClick={handleDelete}>

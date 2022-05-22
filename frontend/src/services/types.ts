@@ -6,6 +6,7 @@ export interface Osoba {
     spol: string;
     datumZaposlenja: Date;
     email: string;
+    lozinka?: string;
 }
 
 export interface Employee extends Osoba {
@@ -49,5 +50,6 @@ export interface DropdownValues {
 
 export interface DeleteInformation {
     id: number;
+    oib?: string;
     name: string;
 }

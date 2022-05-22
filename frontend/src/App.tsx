@@ -11,9 +11,13 @@ const App = () => {
     axios.get<Employee[]>('https://localhost:44312/api/Osoba').then(res => setEmployees(res.data))
   }, [])
 
+  const refreshEmployees = (employees: Employee[]) => {
+    setEmployees(employees);
+  }
+
   return (
     <div className="App">
-      <MasterDetail employees={employees.slice(0, 10)} />
+      <MasterDetail employees={employees.sort((e1, e2) => e1.zaposlenikID - e2.zaposlenikID).slice(0, 10)} refreshEmployees={refreshEmployees} />
     </div>
   );
 }

@@ -5,17 +5,19 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { CustomerSupport, DeleteInformation, DropdownValues, Employee, StatusZadatka, Usluga, Zadatak, ZadatakExtended } from "../../services/types";
+import { CustomerSupport, DeleteInformation, DropdownValues, Employee, Osoba, StatusZadatka, Usluga, Zadatak, ZadatakExtended } from "../../services/types";
 import axios from "axios";
 import { get, find } from 'lodash'
 import AddEditTask from "../addEditTask";
 import ConfirmationDialog from "../confirmationDialog";
+import AddEditEmpolyee from "../addEditEmployee";
 
 interface Props {
     employee: Employee;
+    refreshEmployee(employee: Employee[]): void;
 }
 
-const Row: React.FC<Props> = ({ employee }) => {
+const Row: React.FC<Props> = ({ employee, refreshEmployee }) => {
     const [open, setOpen] = useState(false)
     const [tasks, setTasks] = useState<ZadatakExtended[]>([])
     const [taskStatus, setTaskStatus] = useState<StatusZadatka[]>([])
@@ -24,10 +26,16 @@ const Row: React.FC<Props> = ({ employee }) => {
 
     const [taskDialogOpen, setTaskDialogOpen] = useState(false)
     const [selectedTask, setSelectedTask] = useState<Zadatak | null>(null)
-    //const [employeeDialogOpen, setEmployeeDialogOpen] = useState(false)
+
+    const [selectedEmployee, setSelectedEmployee] = useState<Osoba | null>(null);
+    const [openEmployeeDialog, setOpenEmployeeDialog] = useState<boolean>(false);
 
     const [deleteDialog, setDeleteDialog] = useState<boolean>(false)
     const [deleteInformation, setDeleteInformation] = useState<DeleteInformation>({ id: 0, name: '' })
+
+    const [deleteEmployeeDialog, setDeleteEmployeeDialog] = useState<boolean>(false)
+    const [deleteEmployeeInformation, setDeleteEmployeeInformation] = useState<DeleteInformation>({ id: 0, name: '' })
+
 
     const handleTaskDialogOpen = (task: Zadatak | null) => {
         setTaskDialogOpen(true);
@@ -50,13 +58,26 @@ const Row: React.FC<Props> = ({ employee }) => {
         setTaskDialogOpen(false);
     };
 
-    // const handleEmployeeDialogOpen = () => {
-    //     setEmployeeDialogOpen(true);
-    // };
+    const handleEmployeeDialogOpen = (employee: Osoba | null) => {
+        setOpenEmployeeDialog(true);
+        setSelectedEmployee(employee);
+    };
 
-    // const handleEmployeeDialogClose = () => {
-    //     setEmployeeDialogOpen(false);
-    // };
+    const handleEmployeeDialogClose = (refresh: boolean) => {
+        if (refresh) {
+            axios.get<Employee[]>('https://localhost:44312/api/Osoba').then(res => refreshEmployee(res.data))
+        }
+        setOpenEmployeeDialog(false);
+    };
+
+    const handleDeleteEmployeeOpen = (oib: string, employeeName: string) => {
+        setDeleteEmployeeInformation({ id: -1, oib: oib, name: employeeName })
+        setDeleteEmployeeDialog(open)
+    }
+
+    const handleDeleteEmployeeClose = () => {
+        setDeleteEmployeeDialog(false)
+    }
 
     const handleDeleteTaskOpen = (taskID: number, taskName: string) => {
         setDeleteInformation({ id: taskID, name: taskName })
@@ -79,6 +100,12 @@ const Row: React.FC<Props> = ({ employee }) => {
                 })
                 setTasks(mappedTasks);
             })
+        })
+    }
+
+    const deleteEmployee = (oib: string) => {
+        axios.delete(`https://localhost:44312/api/Osoba/${oib}`).then(() => {
+            axios.get<Employee[]>('https://localhost:44312/api/Osoba').then(res => console.log(res.data))
         })
     }
 
@@ -120,10 +147,10 @@ const Row: React.FC<Props> = ({ employee }) => {
             <TableCell align="center">{employee.email}</TableCell>
             <TableCell align="center">
                 <>
-                    <IconButton aria-label="edit">
+                    <IconButton aria-label="edit" onClick={() => handleEmployeeDialogOpen(employee)}>
                         <EditIcon />
                     </IconButton>
-                    <IconButton aria-label="delete">
+                    <IconButton aria-label="delete" onClick={() => handleDeleteEmployeeOpen(employee.oib, `${employee.ime} ${employee.prezime}`)}>
                         <DeleteIcon />
                     </IconButton>
                 </>
@@ -182,6 +209,17 @@ const Row: React.FC<Props> = ({ employee }) => {
                 </Collapse>
             </TableCell>
         </TableRow>
+        <AddEditEmpolyee
+            open={openEmployeeDialog}
+            onClose={handleEmployeeDialogClose}
+            employee={selectedEmployee}
+        />
+        <ConfirmationDialog
+            open={deleteEmployeeDialog}
+            name={deleteEmployeeInformation.name}
+            deleteSelected={() => deleteEmployee(deleteEmployeeInformation.oib ? deleteEmployeeInformation.oib : '')}
+            onClose={handleDeleteEmployeeClose}
+        />
         <AddEditTask
             open={taskDialogOpen}
             onClose={handleTaskDialogClose}
@@ -204,13 +242,6 @@ Row.propTypes = {
         datumZaposlenja: PropTypes.instanceOf(Date).isRequired,
         email: PropTypes.string.isRequired,
         zaposlenikID: PropTypes.number.isRequired,
-        // history: PropTypes.arrayOf(
-        //     PropTypes.shape({
-        //         amount: PropTypes.number.isRequired,
-        //         customerId: PropTypes.string.isRequired,
-        //         date: PropTypes.string.isRequired,
-        //     }),
-        // ).isRequired,
     }).isRequired,
 };
 
