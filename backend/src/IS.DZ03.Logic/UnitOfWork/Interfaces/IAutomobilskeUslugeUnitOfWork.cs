@@ -9,6 +9,7 @@ namespace IS.DZ03.Logic.UnitOfWork
         IZadatakRepository Zadatak { get; }
         IStatusZadatkaRepository StatusZadatka { get; }
         IUslugaRepository Usluga { get; }
+        IZaposlenikRepository Zaposlenik { get; }
 
         int Save();
     }
