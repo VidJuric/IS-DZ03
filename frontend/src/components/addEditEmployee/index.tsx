@@ -2,7 +2,7 @@ import React from "react";
 import { useFormik } from "formik";
 import * as yup from 'yup';
 import { Osoba } from "../../services/types";
-import { Dialog, Typography, DialogContent, Box, TextField, DialogActions, Button } from "@mui/material";
+import { Dialog, Typography, DialogContent, Box, TextField, DialogActions, Button, FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 import axios from "axios";
 
 interface Props {
@@ -15,7 +15,7 @@ const AddEditEmpolyee: React.FC<Props> = ({ employee, open, onClose }) => {
     const isAdd: boolean = employee ? false : true;
 
     const validationSchema = yup.object({
-        oib: yup.string().required('OIB je obavezno polje'),
+        oib: yup.string().length(11, 'OIB mora imati točno 11 znamenki').required('OIB je obavezno polje'),
         ime: yup.string().required('Ime je obavezno polje'),
         prezime: yup.string().required('Prezime je obavezno polje'),
         datumRodjenja: yup.date().required('Datum rođenja je obavezno polje'),
@@ -53,6 +53,7 @@ const AddEditEmpolyee: React.FC<Props> = ({ employee, open, onClose }) => {
 
     const handleClose = (refresh: boolean) => {
         onClose(refresh)
+        formik.resetForm()
     }
 
     return (
@@ -114,17 +115,23 @@ const AddEditEmpolyee: React.FC<Props> = ({ employee, open, onClose }) => {
                         error={formik.touched.datumRodjenja && Boolean(formik.errors.datumRodjenja)}
                         helperText={formik.touched.datumRodjenja && formik.errors.datumRodjenja}
                     />
-                    <TextField
-                        fullWidth
-                        id="spol"
-                        label="Spol"
-                        type="text"
-                        name="spol"
-                        value={formik.values.spol}
-                        onChange={formik.handleChange}
-                        error={formik.touched.spol && Boolean(formik.errors.spol)}
-                        helperText={formik.touched.spol && formik.errors.spol}
-                    />
+                    <FormControl sx={{ my: 2 }} fullWidth>
+                        <InputLabel>Spol</InputLabel>
+                        <Select
+                            id="spol"
+                            name="spol"
+                            value={formik.values.spol}
+                            label="spol"
+                            onChange={formik.handleChange}
+                        >
+                            <MenuItem value="M">
+                                M
+                            </MenuItem>
+                            <MenuItem value="Ž">
+                                Ž
+                            </MenuItem>
+                        </Select>
+                    </FormControl>
                     <TextField
                         fullWidth
                         id="datumZaposlenja"

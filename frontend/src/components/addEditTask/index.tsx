@@ -51,6 +51,7 @@ const AddEditTask: React.FC<Props> = ({ task, zaposlenikID, taskStatus, services
 
     const handleClose = (refresh: boolean) => {
         onClose(refresh)
+        formik.resetForm()
     }
 
     return (
