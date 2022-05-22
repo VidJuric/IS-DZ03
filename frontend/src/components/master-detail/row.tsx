@@ -168,16 +168,6 @@ const Row: React.FC<Props> = ({ employee }) => {
                                                 </>
                                             </TableCell>
                                         </TableRow>
-                                        <AddEditTask
-                                            key={task.opis}
-                                            open={taskDialogOpen}
-                                            onClose={handleTaskDialogClose}
-                                            task={selectedTask}
-                                            zaposlenikID={employee.zaposlenikID}
-                                            taskStatus={taskStatus.map<DropdownValues>(({ statusZadatkaID, opisStatusa }) => ({ id: statusZadatkaID, value: opisStatusa }))}
-                                            services={services.map<DropdownValues>(({ uslugaID, opisUsluga }) => ({ id: uslugaID, value: opisUsluga }))}
-                                            customerSupport={customerSupport.map<DropdownValues>(({ korisnickaSluzbaID, ime, prezime }) => ({ id: korisnickaSluzbaID, value: `${ime} ${prezime}` }))}
-                                        />
                                         <ConfirmationDialog
                                             open={deleteDialog}
                                             name={deleteInformation.name}
@@ -192,6 +182,15 @@ const Row: React.FC<Props> = ({ employee }) => {
                 </Collapse>
             </TableCell>
         </TableRow>
+        <AddEditTask
+            open={taskDialogOpen}
+            onClose={handleTaskDialogClose}
+            task={selectedTask}
+            zaposlenikID={employee.zaposlenikID}
+            taskStatus={taskStatus.map<DropdownValues>(({ statusZadatkaID, opisStatusa }) => ({ id: statusZadatkaID, value: opisStatusa }))}
+            services={services.map<DropdownValues>(({ uslugaID, opisUsluga }) => ({ id: uslugaID, value: opisUsluga }))}
+            customerSupport={customerSupport.map<DropdownValues>(({ korisnickaSluzbaID, ime, prezime }) => ({ id: korisnickaSluzbaID, value: `${ime} ${prezime}` }))}
+        />
     </React.Fragment>
 }
 
