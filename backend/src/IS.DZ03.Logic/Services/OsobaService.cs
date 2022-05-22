@@ -67,9 +67,21 @@ namespace IS.DZ03.Logic.Services
             return new OsobaResult(entityOsoba);
         }
 
-        public Task<OsobaResult> EditEmployee(string oib, OsobaRequest employee)
+        public async Task<OsobaResult> EditEmployee(string oib, OsobaRequest employee)
         {
-            throw new NotImplementedException();
+            var entity = await UnitOfWork.Osoba.GetPersonByOIB(oib);
+
+            entity.Ime = employee.Ime;
+            entity.Prezime = employee.Prezime;
+            entity.Datumrodjenja = employee.DatumRodjenja;
+            entity.Spol = employee.Spol;
+            entity.Datumzaposlenja = employee.DatumZaposlenja;
+            entity.Email = employee.Email;
+            entity.Lozinka = employee.Lozinka;
+
+            _ = UnitOfWork.Save();
+
+            return new OsobaResult(entity);
         }
 
         public Task DeleteEmployee(string oib)

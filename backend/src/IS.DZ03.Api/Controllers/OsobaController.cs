@@ -37,5 +37,12 @@ namespace IS.DZ03.Api.Controllers
             var result = await _osobaService.AddEmployee(employee);
             return Ok(result);
         }
+
+        [HttpPut("{oib}")]
+        public async Task<IActionResult> EditTask(string oib, [FromBody] OsobaRequest employee)
+        {
+            var result = await _osobaService.EditEmployee(oib, employee);
+            return Ok(result);
+        }
     }
 }

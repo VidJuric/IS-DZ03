@@ -10,5 +10,6 @@ namespace IS.DZ03.Logic.Repositories.Interfaces
         Task<IEnumerable<Osoba>> GetEmployees(SieveModel model);
 
         Task<IEnumerable<Osoba>> GetCustomerSupport();
+        Task<Osoba> GetPersonByOIB(string oib);
     }
 }

@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Sieve.Models;
 using Sieve.Services;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace IS.DZ03.Logic.Repositories
@@ -26,6 +27,13 @@ namespace IS.DZ03.Logic.Repositories
             return await DatabaseContext.Set<Osoba>()
                  .Include(o => o.KorisničkaSlužba)
                  .ToListAsync();
+        }
+
+        public async Task<Osoba> GetPersonByOIB(string oib)
+        {
+            return await DatabaseContext.Set<Osoba>()
+                .Where(o => o.Oib == oib)
+                .FirstOrDefaultAsync();
         }
     }
 }
