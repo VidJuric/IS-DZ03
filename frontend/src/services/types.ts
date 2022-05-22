@@ -12,6 +12,10 @@ export interface Employee extends Osoba {
     zaposlenikID: number;
 }
 
+export interface CustomerSupport extends Osoba {
+    korisnickaSluzbaID: number;
+}
+
 export interface Zadatak {
     zadatakID: number;
     opis: string;
@@ -36,4 +40,14 @@ export interface Usluga {
     uslugaID: number;
     opisUsluga: string;
     cijena: number;
+}
+
+export interface DropdownValues {
+    id: number;
+    value: string;
+}
+
+export interface DeleteInformation {
+    id: number;
+    name: string;
 }
