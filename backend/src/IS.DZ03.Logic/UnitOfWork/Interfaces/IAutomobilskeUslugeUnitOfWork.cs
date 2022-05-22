@@ -6,6 +6,8 @@ namespace IS.DZ03.Logic.UnitOfWork
     public interface IAutomobilskeUslugeUnitOfWork : IDisposable
     {
         IOsobaRepository Osoba { get; }
+        IZadatakRepository Zadatak { get; }
+
         int Save();
     }
 }

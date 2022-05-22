@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace IS.DZ03.Logic.Repositories
 {
-    public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEntity : class
+    public abstract class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEntity : class
     {
         protected readonly AutomobilskeUslugeContext context;
         protected readonly ISieveProcessor sieveProcessor;

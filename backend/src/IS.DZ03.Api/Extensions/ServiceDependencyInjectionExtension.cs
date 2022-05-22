@@ -13,6 +13,7 @@ namespace IS.DZ03.Api.Extensions
         {
             _ = services.AddScoped<IAutomobilskeUslugeUnitOfWork, AutomobilskeUslugeUnitOfWork>();
             _ = services.AddScoped<IOsobaService, OsobaService>();
+            _ = services.AddScoped<IZadatakService, ZadatakService>();
             _ = services.AddScoped<ISieveProcessor, AutomobilskeUslugeSieveProcessor>();
 
             return services; 

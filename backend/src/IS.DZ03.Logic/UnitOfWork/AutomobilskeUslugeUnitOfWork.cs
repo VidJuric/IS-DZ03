@@ -16,6 +16,7 @@ namespace IS.DZ03.Logic.UnitOfWork
         private readonly ISieveProcessor _processor;
 
         private IOsobaRepository _osobaRepository;
+        private IZadatakRepository _zadatakRepository;
 
         public AutomobilskeUslugeUnitOfWork(AutomobilskeUslugeContext context, ISieveProcessor processor)
         {
@@ -33,6 +34,19 @@ namespace IS.DZ03.Logic.UnitOfWork
                 }
 
                 return _osobaRepository;
+            }
+        }
+
+        public IZadatakRepository Zadatak
+        {
+            get
+            {
+                if (_zadatakRepository is null)
+                {
+                    _zadatakRepository = new ZadatakRepository(_context, _processor);
+                }
+
+                return _zadatakRepository;
             }
         }
 
