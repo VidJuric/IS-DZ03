@@ -1,18 +1,35 @@
-import React from "react";
-import { TableRow, TableCell, IconButton, Collapse, Box } from "@mui/material";
+import React, { useEffect, useState } from "react";
+import { TableRow, TableCell, IconButton, Collapse, Box, Typography, Table, TableBody, TableHead } from "@mui/material";
 import PropTypes from 'prop-types';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { Osoba } from "../../services/types";
+import { Osoba, StatusZadatka, Usluga, Zadatak, ZadatakExtended } from "../../services/types";
+import axios from "axios";
+import { get, find } from 'lodash'
 
 interface Props {
     employee: Osoba;
 }
 
 const Row: React.FC<Props> = ({ employee }) => {
-    const [open, setOpen] = React.useState(false);
+    const [open, setOpen] = useState(false);
+    const [tasks, setTasks] = useState<ZadatakExtended[]>([])
+
+    useEffect(() => {
+        Promise.all([axios.get<Zadatak[]>(`https://localhost:44312/api/Zadatak/1`), axios.get<StatusZadatka[]>('https://localhost:44312/api/StatusZadatka'), axios.get<Usluga[]>('https://localhost:44312/api/Usluga')])
+            .then(([{ data: taskData }, { data: taskStatusData }, { data: serviceData }]) => {
+                const mappedTasks: ZadatakExtended[] = taskData.map(row => {
+                    return {
+                        ...row,
+                        statusZadatka: get(find(taskStatusData, { statusZadatkaID: row.statusZadatkaID }), 'opisStatusa', 'Nepoznato'),
+                        usluga: get(find(serviceData, { uslugaID: row.uslugaID }), 'opisUsluga', 'Nepoznato'),
+                    }
+                })
+                setTasks(mappedTasks);
+            })
+    }, [])
 
     return <React.Fragment>
         <TableRow sx={{ '& > *': { borderBottom: 'unset' } }}>
@@ -45,7 +62,40 @@ const Row: React.FC<Props> = ({ employee }) => {
             <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={7}>
                 <Collapse in={open} timeout="auto" unmountOnExit>
                     <Box sx={{ margin: 1 }}>
-                        Test
+                        <Typography variant="h6" gutterBottom component="div">
+                            Zadaci
+                        </Typography>
+                        <Table size="small" aria-label="purchases">
+                            <TableHead>
+                                <TableRow>
+                                    <TableCell align="center">Opis</TableCell>
+                                    <TableCell align="center">Korisnicka Sluzba</TableCell>
+                                    <TableCell align="center">Status Zadatka</TableCell>
+                                    <TableCell align="center">Usluga</TableCell>
+                                    <TableCell align="center">Actions</TableCell>
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                                {tasks.map((task) => (
+                                    <TableRow key={task.zadatakID}>
+                                        <TableCell align="center">{task.opis}</TableCell>
+                                        <TableCell align="center">{task.korisnickasluzbaID}</TableCell>
+                                        <TableCell align="center">{task.statusZadatka}</TableCell>
+                                        <TableCell align="center">{task.usluga}</TableCell>
+                                        <TableCell align="center">
+                                            <>
+                                                <IconButton aria-label="edit">
+                                                    <EditIcon />
+                                                </IconButton>
+                                                <IconButton aria-label="delete">
+                                                    <DeleteIcon />
+                                                </IconButton>
+                                            </>
+                                        </TableCell>
+                                    </TableRow>
+                                ))}
+                            </TableBody>
+                        </Table>
                     </Box>
                 </Collapse>
             </TableCell>

@@ -20,7 +20,7 @@ const MasterDetail: React.FC<Props> = ({ employees }) => {
                     <TableCell align="center">Prezime</TableCell>
                     <TableCell align="center">Spol</TableCell>
                     <TableCell align="center">Email</TableCell>
-                    <TableCell align="center">Actions</TableCell>
+                    <TableCell align="center">Akcije</TableCell>
                 </TableRow>
             </TableHead>
             <TableBody>

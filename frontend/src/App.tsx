@@ -13,7 +13,7 @@ const App = () => {
 
   return (
     <div className="App">
-      <MasterDetail employees={employees} />
+      <MasterDetail employees={employees.slice(0, 10)} />
     </div>
   );
 }

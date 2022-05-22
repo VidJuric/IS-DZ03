@@ -9,11 +9,17 @@ export interface Osoba {
 }
 
 export interface Zadatak {
+    zadatakID: number;
     opis: string;
     zaposlenikID: number;
-    korisnickaSluzbaID: number;
+    korisnickasluzbaID: number;
     statusZadatkaID: number;
     uslugaID: number;
+}
+
+export interface ZadatakExtended extends Zadatak {
+    statusZadatka: string;
+    usluga: string;
 }
 
 export interface StatusZadatka {
