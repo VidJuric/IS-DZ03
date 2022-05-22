@@ -1,4 +1,5 @@
-﻿using IS.DZ03.Logic.Results;
+﻿using IS.DZ03.Logic.Requests;
+using IS.DZ03.Logic.Results;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,5 +11,8 @@ namespace IS.DZ03.Logic.Services.Interfaces
     public interface IZadatakService
     {
         Task<IList<ZadatakResult>> GetEmployeeTasks(long employeeID);
+        Task<ZadatakResult> CreateTask(ZadatakRequest task);
+        Task<ZadatakResult> UpdateTask(long taskID, ZadatakRequest task);
+        Task DeleteTask(long taskID);
     }
 }

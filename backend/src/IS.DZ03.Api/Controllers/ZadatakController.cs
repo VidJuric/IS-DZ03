@@ -1,9 +1,6 @@
-﻿using IS.DZ03.Logic.Services.Interfaces;
-using Microsoft.AspNetCore.Http;
+﻿using IS.DZ03.Logic.Requests;
+using IS.DZ03.Logic.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace IS.DZ03.Api.Controllers
@@ -23,6 +20,13 @@ namespace IS.DZ03.Api.Controllers
         public async Task<IActionResult> GetAllEmployeeTasks(long employeeID)
         {
             var result = await _zadatakService.GetEmployeeTasks(employeeID);
+            return Ok(result);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddTask(ZadatakRequest task)
+        {
+            var result = await _zadatakService.CreateTask(task);
             return Ok(result);
         }
     }

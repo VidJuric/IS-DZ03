@@ -1,6 +1,8 @@
-﻿using IS.DZ03.Logic.Results;
+﻿using IS.DZ03.Logic.Requests;
+using IS.DZ03.Logic.Results;
 using IS.DZ03.Logic.Services.Interfaces;
 using IS.DZ03.Logic.UnitOfWork;
+using IS.DZ03.Model.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,6 +28,32 @@ namespace IS.DZ03.Logic.Services
                 .ToList();
 
             return result;
+        }
+
+        public async Task<ZadatakResult> CreateTask(ZadatakRequest task)
+        {
+            var entity = new Zadatak
+            {
+                Opis = task.Opis,
+                Zaposlenikid = task.ZaposlenikID,
+                Korisnickasluzbaid = task.KorisnickasluzbaID,
+                Statuszadatkaid = task.StatusZadatkaID,
+                Uslugaid = task.UslugaID
+            };
+
+            UnitOfWork.Zadatak.Add(entity);
+            UnitOfWork.Save();
+
+            return new ZadatakResult(entity);
+        }
+        public Task<ZadatakResult> UpdateTask(long taskID, ZadatakRequest task)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task DeleteTask(long taskID)
+        {
+            throw new NotImplementedException();
         }
     }
 }
