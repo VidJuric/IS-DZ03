@@ -1,6 +1,8 @@
-﻿using IS.DZ03.Logic.Results;
+﻿using IS.DZ03.Logic.Requests;
+using IS.DZ03.Logic.Results;
 using IS.DZ03.Logic.Services.Interfaces;
 using IS.DZ03.Logic.UnitOfWork;
+using IS.DZ03.Model.Entities;
 using Sieve.Models;
 using System;
 using System.Collections.Generic;
@@ -38,5 +40,41 @@ namespace IS.DZ03.Logic.Services
             return result;
         }
 
+        public async Task<OsobaResult> AddEmployee(OsobaRequest employee)
+        {
+            var entityOsoba = new Osoba
+            {
+                Oib = employee.Oib,
+                Ime = employee.Ime,
+                Prezime = employee.Prezime,
+                Datumrodjenja = employee.DatumRodjenja,
+                Spol = employee.Spol,
+                Datumzaposlenja = employee.DatumZaposlenja,
+                Email = employee.Email,
+                Lozinka = employee.Lozinka,
+            };
+
+            var entityZaposlenik = new Zaposlenik
+            {
+                Oib = employee.Oib
+            };
+
+            UnitOfWork.Osoba.Add(entityOsoba);
+            UnitOfWork.Zaposlenik.Add(entityZaposlenik);
+
+            _ = UnitOfWork.Save();
+
+            return new OsobaResult(entityOsoba);
+        }
+
+        public Task<OsobaResult> EditEmployee(string oib, OsobaRequest employee)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task DeleteEmployee(string oib)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

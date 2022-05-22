@@ -20,6 +20,7 @@ namespace IS.DZ03.Logic.Repositories
                 .Include(o => o.Zaposlenik)
                 .ToListAsync();
         }
+
         public async Task<IEnumerable<Osoba>> GetCustomerSupport()
         {
             return await DatabaseContext.Set<Osoba>()

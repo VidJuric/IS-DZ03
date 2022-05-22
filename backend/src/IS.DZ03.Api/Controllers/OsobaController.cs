@@ -1,4 +1,5 @@
-﻿using IS.DZ03.Logic.Services.Interfaces;
+﻿using IS.DZ03.Logic.Requests;
+using IS.DZ03.Logic.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Sieve.Models;
 using System.Threading.Tasks;
@@ -27,6 +28,13 @@ namespace IS.DZ03.Api.Controllers
         public async Task<IActionResult> GetAllCustomerSupport()
         {
             var result = await _osobaService.GetAllCustomerSupport();
+            return Ok(result);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddEmployee(OsobaRequest employee)
+        {
+            var result = await _osobaService.AddEmployee(employee);
             return Ok(result);
         }
     }
