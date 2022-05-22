@@ -3,10 +3,6 @@ using IS.DZ03.Logic.Repositories.Interfaces;
 using IS.DZ03.Model.Entities;
 using Sieve.Services;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace IS.DZ03.Logic.UnitOfWork
 {
