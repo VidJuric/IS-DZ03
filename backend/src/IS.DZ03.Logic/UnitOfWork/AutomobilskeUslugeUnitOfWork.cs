@@ -17,6 +17,7 @@ namespace IS.DZ03.Logic.UnitOfWork
 
         private IOsobaRepository _osobaRepository;
         private IZadatakRepository _zadatakRepository;
+        private IStatusZadatkaRepository _statusZadatkaRepository;
 
         public AutomobilskeUslugeUnitOfWork(AutomobilskeUslugeContext context, ISieveProcessor processor)
         {
@@ -47,6 +48,19 @@ namespace IS.DZ03.Logic.UnitOfWork
                 }
 
                 return _zadatakRepository;
+            }
+        }
+
+        public IStatusZadatkaRepository StatusZadatka
+        {
+            get
+            {
+                if (_statusZadatkaRepository is null)
+                {
+                    _statusZadatkaRepository = new StatusZadatkaRepository(_context, _processor);
+                }
+
+                return _statusZadatkaRepository;
             }
         }
 
