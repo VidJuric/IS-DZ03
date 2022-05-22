@@ -8,11 +8,16 @@ export interface Osoba {
     email: string;
 }
 
+export interface Employee extends Osoba {
+    zaposlenikID: number;
+}
+
 export interface Zadatak {
     zadatakID: number;
     opis: string;
     zaposlenikID: number;
     korisnickasluzbaID: number;
+    korisnickaSluzbaImePrezime: string;
     statusZadatkaID: number;
     uslugaID: number;
 }

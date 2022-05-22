@@ -1,11 +1,11 @@
 import React from "react";
 import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
 
-import { Osoba } from "../../services/types";
+import { Employee } from "../../services/types";
 import Row from "./row";
 
 interface Props {
-    employees: Osoba[];
+    employees: Employee[];
 }
 
 const MasterDetail: React.FC<Props> = ({ employees }) => {
@@ -24,7 +24,7 @@ const MasterDetail: React.FC<Props> = ({ employees }) => {
                 </TableRow>
             </TableHead>
             <TableBody>
-                {employees.map((row: Osoba, index) => (
+                {employees.map((row: Employee, index) => (
                     <Row key={index} employee={row} />
                 ))}
             </TableBody>

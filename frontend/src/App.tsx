@@ -2,13 +2,13 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import './App.css';
 import MasterDetail from './components/master-detail';
-import { Osoba } from './services/types';
+import { Employee } from './services/types';
 
 const App = () => {
-  const [employees, setEmployees] = useState<Osoba[]>([]);
+  const [employees, setEmployees] = useState<Employee[]>([]);
 
   useEffect(() => {
-    axios.get<Osoba[]>('https://localhost:44312/api/Osoba').then(res => setEmployees(res.data))
+    axios.get<Employee[]>('https://localhost:44312/api/Osoba').then(res => setEmployees(res.data))
   }, [])
 
   return (
