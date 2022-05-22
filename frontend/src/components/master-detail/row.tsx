@@ -177,7 +177,7 @@ const Row: React.FC<Props> = ({ employee, refreshEmployee }) => {
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                {tasks.map((task) => (
+                                {tasks.sort((z1, z2) => z1.zadatakID - z2.zadatakID).map((task) => (
                                     <>
                                         <TableRow key={task.zadatakID}>
                                             <TableCell align="center">{task.opis}</TableCell>
