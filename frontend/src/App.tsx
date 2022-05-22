@@ -17,7 +17,7 @@ const App = () => {
 
   return (
     <div className="App">
-      <MasterDetail employees={employees.sort((e1, e2) => e1.zaposlenikID - e2.zaposlenikID).slice(0, 10)} refreshEmployees={refreshEmployees} />
+      <MasterDetail employees={employees.sort((e1, e2) => e1.zaposlenikID - e2.zaposlenikID).reverse()} refreshEmployees={refreshEmployees} />
     </div>
   );
 }
